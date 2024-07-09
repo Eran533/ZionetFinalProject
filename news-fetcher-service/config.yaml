@@ -1,0 +1,9 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: news-fetcher-service
+spec:
+  type: http.endpoint
+  metadata:
+  - name: url
+    value: "http://news-fetcher-service:5000"

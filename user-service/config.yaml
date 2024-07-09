@@ -1,0 +1,9 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: user-service
+spec:
+  type: http.endpoint
+  metadata:
+  - name: url
+    value: "http://user-service:5001"

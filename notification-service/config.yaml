@@ -1,0 +1,9 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: notification-service
+spec:
+  type: http.endpoint
+  metadata:
+  - name: url
+    value: "http://notification-service:5003"
