@@ -7,13 +7,13 @@ app = Flask(__name__)
 def aggregate_news(username):
     try:
         # Fetch user topics using Dapr service invocation
-        dapr_user_service_url = f"http://user-service:3500/v1.0/invoke/user-service/method/topics/{username}"
+        dapr_user_service_url = f"http://user-service:5001/v1.0/invoke/user-service/method/topics/{username}"
         response = requests.get(dapr_user_service_url)
         if response.status_code == 200:
             user_topics = response.json()['topics']
 
             # Fetch news based on user topics using Dapr service invocation
-            dapr_fetch_news_url = f"http://news-fetcher-service:3500/v1.0/invoke/news-fetcher-service/method/fetch-news"
+            dapr_fetch_news_url = f"http://news-fetcher-service:5000/v1.0/invoke/news-fetcher-service/method/fetch-news"
             response = requests.post(dapr_fetch_news_url, json=user_topics)
             if response.status_code == 200:
                 news = response.json()
