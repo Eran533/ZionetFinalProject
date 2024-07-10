@@ -3,11 +3,10 @@ import requests
 
 app = Flask(__name__)
 
-@app.route('/fetch-news', methods=['POST'])
-def fetch_news():
+def news_api(topic):
     url = "https://real-time-news-data.p.rapidapi.com/search"
     querystring = {
-        "query": "Elon Musk",
+        "query": f'{topic}',
         "limit": "500",
         "time_published": "anytime",
         "country": "US",
@@ -18,11 +17,17 @@ def fetch_news():
         "x-rapidapi-host": "real-time-news-data.p.rapidapi.com"
     }
     response = requests.get(url, headers=headers, params=querystring)
+    return response.json()
 
-    if response.status_code == 200:
-        return jsonify(response.json())  # Return JSON response from the API
-    else:
-        return jsonify({"error": "Failed to fetch news", "status_code": response.status_code})
+@app.route('/fetch-news', methods=['POST'])
+def fetch_news():
+    request_data = request.get_json()
+    topics = request_data['topics']
+    news_lst = []
+    for topic in topics:
+        news = news_api(topic)
+        news_lst.append(news)
+    return news_lst
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
