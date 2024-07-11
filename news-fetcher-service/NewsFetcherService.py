@@ -27,7 +27,7 @@ def fetch_news():
     for topic in topics:
         news = news_api(topic)
         news_lst.append(news)
-    return news_lst
+    return jsonify(news_lst)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

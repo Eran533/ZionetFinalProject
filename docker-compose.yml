@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   mysql:
     image: mysql:8.0
@@ -21,7 +23,6 @@ services:
 
   news-fetcher-service:
     build: news-fetcher-service
-    command: ["dapr", "run", "--app-id", "news-fetcher-service", "--app-port", "5000", "--resources-path", "/components", "--", "python", "NewsFetcherService.py"]
     ports:
       - "5000:5000"
     depends_on:
@@ -38,11 +39,26 @@ services:
     networks:
       - app-network
 
+  news-fetcher-service-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "--app-id", "news-fetcher-service",
+      "--app-port", "5000",
+      "--placement-host-address", "placement:50006",
+      "--resources-path", "/components"
+    ]
+    volumes:
+      - dapr_components:/components
+    depends_on:
+      - news-fetcher-service
+    network_mode: "service:news-fetcher-service"
+
   user-service:
     build: user-service
-    command: ["dapr", "run", "--app-id", "user-service", "--app-port", "5001", "--resources-path", "/components", "--", "python", "UserService.py"]
     ports:
       - "5001:5001"
+      - "3500:3500"
     depends_on:
       - rabbitmq
       - mysql
@@ -57,9 +73,23 @@ services:
     networks:
       - app-network
 
+  user-service-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "--app-id", "user-service",
+      "--app-port", "5001",
+      "--placement-host-address", "placement:50006",
+      "--resources-path", "/components"
+    ]
+    volumes:
+      - dapr_components:/components
+    depends_on:
+      - user-service
+    network_mode: "service:user-service"
+
   news-aggregator-service:
     build: news-aggregator-service
-    command: ["dapr", "run", "--app-id", "news-aggregator-service", "--app-port", "5002", "--resources-path", "/components", "--", "python", "NewsAggregatorService.py"]
     ports:
       - "5002:5002"
     depends_on:
@@ -76,9 +106,23 @@ services:
     networks:
       - app-network
 
+  news-aggregator-service-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "--app-id", "news-aggregator-service",
+      "--app-port", "5002",
+      "--placement-host-address", "placement:50006",
+      "--resources-path", "/components"
+    ]
+    volumes:
+      - dapr_components:/components
+    depends_on:
+      - news-aggregator-service
+    network_mode: "service:news-aggregator-service"
+
   notification-service:
     build: notification-service
-    command: ["dapr", "run", "--app-id", "notification-service", "--app-port", "5003", "--resources-path", "/components", "--", "python", "NotificationService.py"]
     ports:
       - "5003:5003"
     depends_on:
@@ -92,6 +136,29 @@ services:
     volumes:
       - ./notification-service/config.yaml:/app/config.yaml
       - dapr_components:/components
+    networks:
+      - app-network
+
+  notification-service-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "--app-id", "notification-service",
+      "--app-port", "5003",
+      "--placement-host-address", "placement:50006",
+      "--resources-path", "/components"
+    ]
+    volumes:
+      - dapr_components:/components
+    depends_on:
+      - notification-service
+    network_mode: "service:notification-service"
+
+  placement:
+    image: "daprio/dapr"
+    command: ["./placement", "--port", "50006"]
+    ports:
+      - "50006:50006"
     networks:
       - app-network
 
