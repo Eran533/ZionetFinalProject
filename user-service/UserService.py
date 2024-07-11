@@ -90,10 +90,10 @@ def set_topics():
             return jsonify({'error': 'Failed to set topics'}), 500
     return jsonify({'error': 'Invalid data'}), 400
 
-@app.route('/topics/<string:username>', methods=['GET'])
-def get_topics(username):
+@app.route('/topics/<string:email>', methods=['GET'])
+def get_topics(email):
     cursor = db.cursor()
-    cursor.execute("SELECT topics FROM topics WHERE user_id = (SELECT id FROM users WHERE username = %s)", (username,))
+    cursor.execute("SELECT topics FROM topics WHERE user_id = (SELECT id FROM users WHERE email = %s)", (email,))
     result = cursor.fetchone()
     cursor.close()
     if result:

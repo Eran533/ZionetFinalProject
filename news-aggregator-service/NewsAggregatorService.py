@@ -3,10 +3,10 @@ import requests
 
 app = Flask(__name__)
 
-@app.route('/aggregate-news/<string:username>', methods=['POST'])
-def aggregate_news(username):
+@app.route('/aggregate-news/<string:email>', methods=['POST'])
+def aggregate_news(email):
     try:
-        dapr_user_service_url = f"http://localhost:3500/v1.0/invoke/user-service/method/topics/{username}"
+        dapr_user_service_url = f"http://localhost:3500/v1.0/invoke/user-service/method/topics/{email}"
         response = requests.get(dapr_user_service_url)
         if response.status_code == 200:
             user_topics = response.json()
@@ -14,7 +14,9 @@ def aggregate_news(username):
             response = requests.post(dapr_fetch_news_url, json=user_topics)
             if response.status_code == 200:
                 news = response.json()
-                return jsonify(news), 200
+                dapr_notification_url = f"http://localhost:3500/v1.0/invoke/notification-service/method/notify/{email}"
+                response = requests.post(dapr_notification_url, json=news)
+                return jsonify(response.json()), 200
             else:
                 return jsonify({'error': 'Failed to fetch news'}), 500
         else:
