@@ -22,13 +22,29 @@ The project consists of the following services:
 ### Step 1: Clone the Repository
 ```bash
 git clone git@github.com:Eran533/ZionetFinalProject.git
-
+```
 ### Step 2: Build and Start Services
 ```bash
 docker-compose up --build
-
+```
 ### Step 3: Accessing Services
-User Service: http://localhost:5001
-News Fetcher Service: http://localhost:5000
-News Aggregator Service: http://localhost:5002
-Notification Service: http://localhost:5003
+- User Service: http://localhost:5001
+- News Fetcher Service: http://localhost:5000
+- News Aggregator Service: http://localhost:5002
+- Notification Service: http://localhost:5003
+
+### Endpoints
+## User Service
+# - Register User: POST /register
+- Payload: { "email": "user@example.com", "username": "testuser" }
+# - Set Topics: POST /topics
+- Payload: { "username": "testuser", "topics": ["technology", "sports"] }
+# - Get Topics: GET /topics/<email>
+# - Get Users: GET /users
+## News Fetcher Service
+# - Fetch News: POST /fetch-news
+- Payload: { "topics": ["technology", "sports"] }
+## News Aggregator Service
+# - Aggregate News: POST /aggregate-news/<email>
+## Notification Service
+# - Notify User: POST /notify/<email>
