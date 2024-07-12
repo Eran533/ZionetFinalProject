@@ -22,11 +22,10 @@ def test_set_topics():
     assert response.json() == {'message': 'Topics updated successfully'}
 
 def test_get_topics():
-    email = 'eranblank533@gmail.com'
+    email = 'user@example.com'
     response = requests.get(f"{BASE_URL}/topics/{email}")
     assert response.status_code == 200
     assert response.json() == {'topics': ['technology', 'sports']}
-
 
 def test_get_users():
     response = requests.get(f"{BASE_URL}/users")
