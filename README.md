@@ -39,8 +39,8 @@ docker-compose up --build
 - Payload: { "email": "user@example.com", "username": "testuser" }
 ### Set Topics: POST /topics
 - Payload: { "username": "testuser", "topics": ["technology", "sports"] }
-### Get Topics: GET /topics/<email>
-### Get Users: GET /users
+### - Get Topics: GET /topics/<email>
+### - Get Users: GET /users
 ### News Fetcher Service
 ### Fetch News: POST /fetch-news
 - Payload: { "topics": ["technology", "sports"] }

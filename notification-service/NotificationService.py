@@ -5,7 +5,6 @@ import smtplib
 
 app = Flask(__name__)
 
-
 def send_email(receiver_email, subject, body):
     msg = ""
     for category_dict in body:
