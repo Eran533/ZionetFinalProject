@@ -34,17 +34,17 @@ docker-compose up --build
 - Notification Service: http://localhost:5003
 
 ### Endpoints
-## User Service
-# - Register User: POST /register
+### User Service
+### Register User: POST /register
 - Payload: { "email": "user@example.com", "username": "testuser" }
-# - Set Topics: POST /topics
+### Set Topics: POST /topics
 - Payload: { "username": "testuser", "topics": ["technology", "sports"] }
-# - Get Topics: GET /topics/<email>
-# - Get Users: GET /users
-## News Fetcher Service
-# - Fetch News: POST /fetch-news
+### Get Topics: GET /topics/<email>
+### Get Users: GET /users
+### News Fetcher Service
+### Fetch News: POST /fetch-news
 - Payload: { "topics": ["technology", "sports"] }
-## News Aggregator Service
-# - Aggregate News: POST /aggregate-news/<email>
-## Notification Service
-# - Notify User: POST /notify/<email>
+### News Aggregator Service 
+### Aggregate News: POST /aggregate-news/<email>
+### Notification Service
+### Notify User: POST /notify/<email>
