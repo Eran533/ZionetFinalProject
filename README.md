@@ -22,11 +22,12 @@ The project consists of the following services:
 ### Step 1: Clone the Repository
 ```bash
 git clone git@github.com:Eran533/ZionetFinalProject.git
-Step 2: Build and Start Services
-bash
-Copy code
+
+### Step 2: Build and Start Services
+```bash
 docker-compose up --build
-Step 3: Accessing Services
+
+### Step 3: Accessing Services
 User Service: http://localhost:5001
 News Fetcher Service: http://localhost:5000
 News Aggregator Service: http://localhost:5002
