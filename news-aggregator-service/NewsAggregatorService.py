@@ -25,10 +25,9 @@ def aggregate_news(email):
         response = requests.get(dapr_user_service_url)
         if response.status_code == 200:
             user_topics = response.json()
-            # Start a new thread for fetching news and notifying
             thread = threading.Thread(target=fetch_news_and_notify, args=(email, user_topics))
             thread.start()
-            return jsonify({'message': 'News aggregation started in the background'}), 202  # HTTP 202 Accepted
+            return jsonify({'message': 'News aggregation started in the background'}), 202
         else:
             return jsonify({'error': 'Failed to fetch user topics'}), 500
     except requests.exceptions.RequestException as e:

@@ -69,12 +69,9 @@ def set_topics():
     if username and topics:
         cursor = db.cursor()
         try:
-            # Fetch user_id based on username
             cursor.execute("SELECT id FROM users WHERE username = %s", (username,))
             user_id = cursor.fetchone()
-
             if user_id:
-                # Use the fetched user_id to replace topics
                 cursor.execute("REPLACE INTO topics (user_id, topics) VALUES (%s, %s)", (user_id[0], ','.join(topics)))
                 db.commit()
                 cursor.close()
