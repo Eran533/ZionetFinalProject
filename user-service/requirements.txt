@@ -3,3 +3,4 @@ dapr==1.4.0
 requests==2.25.1
 Werkzeug==2.0.1
 mysql-connector-python
+pika

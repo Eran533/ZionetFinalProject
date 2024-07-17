@@ -5,7 +5,7 @@ from time import sleep
 
 app = Flask(__name__)
 
-def connect_to_mysql_with_retry(max_retries=15, retry_delay=5):
+def connect_to_mysql_with_retry(max_retries=10, retry_delay=5):
     retries = 0
     while retries < max_retries:
         try:
@@ -62,7 +62,6 @@ def register():
             return jsonify({'error': 'Failed to register user'}), 500
     return jsonify({'error': 'Invalid data'}), 400
 
-# Endpoint to set topics for a user
 @app.route('/topics', methods=['POST'])
 def set_topics():
     username = request.json.get('username')
